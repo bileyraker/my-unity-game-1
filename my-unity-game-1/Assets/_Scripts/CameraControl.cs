@@ -28,10 +28,13 @@ namespace Birdy
 		private Vector2 zoom_WorldOrigin;
 		private Vector2 zoom_CursorLocation;
 
+		private float zoomVelocity;
+		private Vector2 panVelocity;
+
 		public float panSpeed = 6f;
 		public float zoomSpeed = 6f;
-		public float panLerpSpeed = 0.02f;
-		public float zoomLerpSpeed = 0.02f;
+		public float panSmoothSpeed = 0.1f;
+		public float zoomSmoothSpeed = 0.1f;
 		public float zoomIncrement = 0.5f;
 
 		private void Awake()
@@ -44,6 +47,8 @@ namespace Birdy
 		{
 			panTarget = (Vector2)transform.position;
 			zoomTarget = Camera.main.orthographicSize;
+			panVelocity = Vector2.zero;
+			zoomVelocity = 0f;
 		}
 
 
@@ -109,6 +114,7 @@ namespace Birdy
 			{
 				panDragging = true;
 				mouseMoved = false;
+				Debug.Log("panDragging = true");
 			}
 			else if (context.canceled)
 			{
@@ -122,6 +128,7 @@ namespace Birdy
 				}
 
 				panDragging = false;
+				Debug.Log("panDragging = false");
 			}
 		}
 
@@ -144,7 +151,11 @@ namespace Birdy
 			val = val / Mathf.Abs(val);
 			zoomTarget -= val;
 			zoomTarget = Mathf.Clamp(zoomTarget, 0.5f, 20f);
-			zooming = true;
+			if(!zooming)
+			{
+				zooming = true;
+				Debug.Log("zooming = true, time = " + Time.time);
+			}
 		}
 
 		private void UpdateTranslation()
@@ -152,7 +163,11 @@ namespace Birdy
 			if(panDragging)
 			{
 				Vector2 cursorLocation = Mouse.current.position.ReadValue();
-				panTarget = WorldPointToCursor(pd_WorldOrigin, cursorLocation);
+				if(zooming)
+				{
+					zoom_CursorLocation = cursorLocation;
+				}
+				panTarget = WorldPointToScreenPoint(pd_WorldOrigin, cursorLocation);
 				// For "pan to cursor" functionality
 				// If mouse hasn't moved yet, determine if moved
 				if (!mouseMoved && cursorLocation != pd_ScreenOrigin)
@@ -161,8 +176,8 @@ namespace Birdy
 				}
 			}
 
-			Vector2 panTargetVelocity = panSpeed * Camera.main.orthographicSize * panDir;
-			Vector2 panDelta = panTargetVelocity * Time.deltaTime;
+			Vector2 panTarget_Velocity = panSpeed * Camera.main.orthographicSize * panDir;
+			Vector2 panDelta = panTarget_Velocity * Time.deltaTime;
 			panTarget += panDelta;
 			if (panDragging)
 			{
@@ -175,14 +190,7 @@ namespace Birdy
 
 			if (panTarget != (Vector2)transform.position)
 			{
-				// Lerp towards panTarget.
-				//transform.position = Vector2.Lerp(transform.position, panTarget, panLerpSpeed);
-
-				// Don't lerp, instead pan a fixed speed until close, then pan slower.
-				transform.position = Vector2.MoveTowards(
-					(Vector2) transform.position,
-					panTarget,
-					panSpeed * Camera.main.orthographicSize * Time.deltaTime);
+				transform.position = Vector2.SmoothDamp(transform.position, panTarget, ref panVelocity, .2f);
 			}
 
 		}
@@ -191,29 +199,31 @@ namespace Birdy
 		{
 			if (zooming)
 			{
-
-				if (Camera.main.orthographicSize < 0.998 * zoomTarget || Camera.main.orthographicSize > 1.002 * zoomTarget)
+				if(Mathf.Abs(zoomTarget - Camera.main.orthographicSize) < zoomIncrement * .02)
 				{
-					//Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, zoomTarget, zoomLerpSpeed);
-					Camera.main.orthographicSize = Mathf.MoveTowards(
-						Camera.main.orthographicSize, 
-						zoomTarget, 
-						zoomSpeed * Time.deltaTime);
+					Camera.main.orthographicSize = zoomTarget;
+					zoomVelocity = 0;
+					zooming = false;
+					Debug.Log("zooming = false, time = " + Time.time);
 				}
 				else
 				{
-					Camera.main.orthographicSize = zoomTarget;
-					zooming = false;
-				}
+					Camera.main.orthographicSize = Mathf.SmoothDamp(Camera.main.orthographicSize, zoomTarget, ref zoomVelocity, .2f);
 
+				}
 				// Zoom towards/away from cursor. Cursor will stay on the same world coordinate.
-				transform.position = WorldPointToCursor(zoom_WorldOrigin, zoom_CursorLocation);
+				transform.position = WorldPointToScreenPoint(zoom_WorldOrigin, zoom_CursorLocation);
 				panTarget = transform.position;
+				//if(Mathf.Approximately(Camera.main.orthographicSize, zoomTarget))
+				//{
+				//	zooming = false;
+				//	Debug.Log("zooming = false");
+				//}
 			}
 		}
 
 		// Returns the Vector2 that the camera transform needs to be located in order for worldPoint to be located at the mouse cursor.
-		private Vector2 WorldPointToCursor(Vector2 worldPoint, Vector2 cursorLocation)
+		private Vector2 WorldPointToScreenPoint(Vector2 worldPoint, Vector2 cursorLocation)
 		{
 			// Get cursorLocation's world coordinates
 				//pd_WorldDest = Camera.main.ScreenToWorldPoint(cursorLocation);
