@@ -29,6 +29,7 @@ namespace Birdy
 		private Vector2 zoom_CursorLocation;
 
 		public float panSpeed = 6f;
+		public float zoomSpeed = 6f;
 		public float panLerpSpeed = 0.02f;
 		public float zoomLerpSpeed = 0.02f;
 		public float zoomIncrement = 0.5f;
@@ -175,7 +176,13 @@ namespace Birdy
 			if (panTarget != (Vector2)transform.position)
 			{
 				// Lerp towards panTarget.
-				transform.position = Vector2.Lerp(transform.position, panTarget, panLerpSpeed);
+				//transform.position = Vector2.Lerp(transform.position, panTarget, panLerpSpeed);
+
+				// Don't lerp, instead pan a fixed speed until close, then pan slower.
+				transform.position = Vector2.MoveTowards(
+					(Vector2) transform.position,
+					panTarget,
+					panSpeed * Camera.main.orthographicSize * Time.deltaTime);
 			}
 
 		}
@@ -187,7 +194,11 @@ namespace Birdy
 
 				if (Camera.main.orthographicSize < 0.998 * zoomTarget || Camera.main.orthographicSize > 1.002 * zoomTarget)
 				{
-					Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, zoomTarget, zoomLerpSpeed);
+					//Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, zoomTarget, zoomLerpSpeed);
+					Camera.main.orthographicSize = Mathf.MoveTowards(
+						Camera.main.orthographicSize, 
+						zoomTarget, 
+						zoomSpeed * Time.deltaTime);
 				}
 				else
 				{
