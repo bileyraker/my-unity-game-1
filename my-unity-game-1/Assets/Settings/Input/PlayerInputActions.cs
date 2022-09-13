@@ -55,6 +55,15 @@ namespace Birdy
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d3eb00c-1d84-45f8-b35a-6498d9e0649d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -134,6 +143,17 @@ namespace Birdy
                     ""action"": ""PanDrag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0875a226-4c09-42ce-89cf-aa376e860072"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +226,7 @@ namespace Birdy
             m_WorldCamera_Pan = m_WorldCamera.FindAction("Pan", throwIfNotFound: true);
             m_WorldCamera_Zoom = m_WorldCamera.FindAction("Zoom", throwIfNotFound: true);
             m_WorldCamera_PanDrag = m_WorldCamera.FindAction("PanDrag", throwIfNotFound: true);
+            m_WorldCamera_Select = m_WorldCamera.FindAction("Select", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -268,6 +289,7 @@ namespace Birdy
         private readonly InputAction m_WorldCamera_Pan;
         private readonly InputAction m_WorldCamera_Zoom;
         private readonly InputAction m_WorldCamera_PanDrag;
+        private readonly InputAction m_WorldCamera_Select;
         public struct WorldCameraActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -275,6 +297,7 @@ namespace Birdy
             public InputAction @Pan => m_Wrapper.m_WorldCamera_Pan;
             public InputAction @Zoom => m_Wrapper.m_WorldCamera_Zoom;
             public InputAction @PanDrag => m_Wrapper.m_WorldCamera_PanDrag;
+            public InputAction @Select => m_Wrapper.m_WorldCamera_Select;
             public InputActionMap Get() { return m_Wrapper.m_WorldCamera; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -293,6 +316,9 @@ namespace Birdy
                     @PanDrag.started -= m_Wrapper.m_WorldCameraActionsCallbackInterface.OnPanDrag;
                     @PanDrag.performed -= m_Wrapper.m_WorldCameraActionsCallbackInterface.OnPanDrag;
                     @PanDrag.canceled -= m_Wrapper.m_WorldCameraActionsCallbackInterface.OnPanDrag;
+                    @Select.started -= m_Wrapper.m_WorldCameraActionsCallbackInterface.OnSelect;
+                    @Select.performed -= m_Wrapper.m_WorldCameraActionsCallbackInterface.OnSelect;
+                    @Select.canceled -= m_Wrapper.m_WorldCameraActionsCallbackInterface.OnSelect;
                 }
                 m_Wrapper.m_WorldCameraActionsCallbackInterface = instance;
                 if (instance != null)
@@ -306,6 +332,9 @@ namespace Birdy
                     @PanDrag.started += instance.OnPanDrag;
                     @PanDrag.performed += instance.OnPanDrag;
                     @PanDrag.canceled += instance.OnPanDrag;
+                    @Select.started += instance.OnSelect;
+                    @Select.performed += instance.OnSelect;
+                    @Select.canceled += instance.OnSelect;
                 }
             }
         }
@@ -360,6 +389,7 @@ namespace Birdy
             void OnPan(InputAction.CallbackContext context);
             void OnZoom(InputAction.CallbackContext context);
             void OnPanDrag(InputAction.CallbackContext context);
+            void OnSelect(InputAction.CallbackContext context);
         }
     }
 }

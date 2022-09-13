@@ -3,19 +3,24 @@ using UnityEngine;
 
 namespace Birdy
 {
-	public class SelectableObject : MonoBehaviour
+	public class SelectableObject
 	{
+		public int uid;
+		private bool selected;
 
-		// Use this for initialization
-		void Start()
+		public SelectableObject()
 		{
-
+			selected = false;
 		}
 
-		// Update is called once per frame
-		void Update()
+		public void Select()
 		{
+			selected = true;
+		}
 
+		public void Deselect()
+		{
+			selected = false;
 		}
 	}
 }
