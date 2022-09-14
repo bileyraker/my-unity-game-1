@@ -6,6 +6,6 @@ namespace Birdy
 {
 	public class Player : MonoBehaviour
 	{
-
+		private Selection selection;
 	}
 }
