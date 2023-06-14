@@ -11,21 +11,31 @@ namespace Birdy
 		[ReadOnly]
 		private bool selected;
 
+		List<Player> selectors { get; set; }
+
+
 		public SelectableObject()
 		{
 			selected = false;
 		}
+		
 
-		public void Select()
+		public void Select(Player a)
 		{
-			selected = true;
-			Debug.Log("UID: " + uid + " | selected");
+			selectors.Add(a);
 		}
 
-		public void Deselect()
+		public void Deselect(Player a)
 		{
-			selected = false;
-			Debug.Log("UID: " + uid + " | deselected");
+			selectors.Remove(a);
+		}
+
+		void PrintSelectors()
+		{
+			foreach (Player selector in selectors)
+			{
+				Debug.Log(selector.Name);
+			}
 		}
 	}
 }

@@ -17,5 +17,13 @@ namespace Birdy
 		{
 			selectors.Remove(a);
 		}
+
+		void PrintSelectors()
+		{
+			foreach (Player selector in selectors)
+			{
+				Debug.Log(selector.Name);
+			}
+		}
 	}
 }
