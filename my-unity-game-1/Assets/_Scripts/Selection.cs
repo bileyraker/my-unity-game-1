@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Birdy
 {
-	public class Selection
+	public class Selection : MonoBehaviour
 	{
-		private List<SelectableObject> selection;
+		private List<Selectable> _contents;
+		private int _priorityLevel;
 
 		void Awake()
 		{
-
-			selection = new List<SelectableObject>();
+			_contents = new List<Selectable>();
 		}
 
 		private void Start()
@@ -42,33 +43,32 @@ namespace Birdy
 
 		}
 
-		public Selection()
+		public List<Selectable> SelectedObjects
 		{
-			selection = new List<SelectableObject>();
+			get => _contents;
 		}
 
-		public List<SelectableObject> SelectedObjects
-		{
-			get
-			{
-				return selection;
-			}
-		}
-
-		public void Select(List<SelectableObject> toSelect)
+		public void Select(List<Selectable> toSelect)
 		{
 			foreach (var obj in toSelect)
 			{
-				// Check if already selected by player
-				if (!selection.Exists(x => x.uid == obj.uid))
-				{
-					selection.Add(obj);
-				}
-
+				_contents.Add(obj);
 			}
 		}
 
-		public void Deselect(List<SelectableObject> toDeselect)
+		public void Select(Selectable toSelect)
+		{
+			_contents.Add(toSelect);
+			toSelect.Select();
+		}
+
+		public void Deselect(Selectable toDeselect)
+		{
+			_contents.Remove(toDeselect);
+			toDeselect.Deselect();
+		}
+
+		public void Deselect(List<Selectable> toDeselect)
 		{
 			foreach (var obj in toDeselect)
 			{
@@ -76,24 +76,12 @@ namespace Birdy
 			}
 		}
 
-		public void Deselect(SelectableObject toDeselect)
-		{
-			var foundObj = selection.Find(x => x.uid == toDeselect.uid);
-			var contains = selection.Contains(toDeselect);
-			if (foundObj.uid == toDeselect.uid)
-			{
-				toDeselect.Deselect();
-				selection.Remove(toDeselect);
-			}
-		}
-
 		public void Deselect()
 		{
-			foreach (var obj in selection)
+			foreach (var toDeselect in _contents)
 			{
-				Deselect(obj);
+				Deselect(toDeselect);
 			}
-			selection.Clear();
 		}
 	}
 }
