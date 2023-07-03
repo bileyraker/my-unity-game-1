@@ -58,19 +58,27 @@ namespace Birdy
 
 		public void Select(Selectable toSelect)
 		{
+			if (_contents.Any(x => x.GetInstanceID() == toSelect.GetInstanceID()))
+			{
+				return;
+			}
 			_contents.Add(toSelect);
 			toSelect.Select();
 		}
 
 		public void Deselect(Selectable toDeselect)
 		{
+			if (_contents.Any(x => x.GetInstanceID() == toDeselect.GetInstanceID()))
+			{
+				return;
+			}
 			_contents.Remove(toDeselect);
 			toDeselect.Deselect();
 		}
 
 		public void Deselect(List<Selectable> toDeselect)
 		{
-			foreach (var obj in toDeselect)
+			foreach (Selectable obj in toDeselect)
 			{
 				Deselect(obj);
 			}
@@ -78,7 +86,7 @@ namespace Birdy
 
 		public void Deselect()
 		{
-			foreach (var toDeselect in _contents)
+			foreach (Selectable toDeselect in _contents)
 			{
 				Deselect(toDeselect);
 			}
