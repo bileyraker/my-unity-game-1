@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Birdy.Commands
 {
-	public class MoveCommand : Command
+	public class MoveCommand : ICommand
 	{
 		private GameObject _obj;
 		private float _x, _y;
@@ -16,7 +16,7 @@ namespace Birdy.Commands
 			_y = y;
 		}
 
-		public override void Execute()
+		public void Execute()
 		{
 			_prevX = _obj.transform.position.x;
 			_prevY = _obj.transform.position.y;
@@ -27,7 +27,7 @@ namespace Birdy.Commands
 			_obj.transform.position = pos;
 		}
 
-		public override void Undo()
+		public void Undo()
 		{
 			Vector3 pos = _obj.transform.position;
 			pos.x = _prevX;
@@ -35,7 +35,7 @@ namespace Birdy.Commands
 			_obj.transform.position = pos;
 		}
 
-		public override void Redo()
+		public void Redo()
 		{
 			Vector3 pos = _obj.transform.position;
 			pos.x = _x;
