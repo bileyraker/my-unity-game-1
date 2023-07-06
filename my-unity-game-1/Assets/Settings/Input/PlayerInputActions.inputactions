@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Append",
+                    "type": "Button",
+                    "id": "859ea2e1-37d4-4b02-8418-105500e2d7fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -131,36 +140,14 @@
                 },
                 {
                     "name": "",
-                    "id": "47dd17e4-feb6-48ff-b933-45d4008eae34",
-                    "path": "OneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Activate",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "modifier",
-                    "id": "d60798ef-33f0-4edf-9d74-eef0381f257b",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Activate",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "ef738434-a08e-4fdb-9451-e9d8d77ff753",
+                    "id": "e92d62c1-5ef6-487f-bffd-169b8dcebeb7",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Activate",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -170,6 +157,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "CancelActivate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d2c16ee-7716-46e3-adc6-e621eda690dc",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Append",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

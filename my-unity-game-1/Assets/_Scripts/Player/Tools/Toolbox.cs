@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Birdy.Player.Tools
 {
-	public class ToolManager : MonoBehaviour
+	public class Toolbox : MonoBehaviour
 	{
 		public PlayerInputActions playerControls;
 		private InputAction activate;
@@ -13,10 +14,14 @@ namespace Birdy.Player.Tools
 		//private GameObject tool_SelectBox;
 
 		[SerializeField]
+		private List<Tool> tools;
+
+		[SerializeField]
 		private Select tool_Select;
 
 		private void Awake()
 		{
+			tools = new List<Tool>();
 			playerControls = new PlayerInputActions();
 		}
 

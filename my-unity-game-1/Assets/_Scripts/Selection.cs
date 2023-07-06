@@ -7,8 +7,9 @@ namespace Birdy
 {
 	public class Selection : MonoBehaviour
 	{
+		[SerializeField]
 		private List<Selectable> _contents;
-		private int _priorityLevel;
+		private int _priorityLevel = 0;
 
 		void Awake()
 		{
@@ -18,23 +19,6 @@ namespace Birdy
 		private void Start()
 		{
 
-			//var d = new SelectableObject() { uid = 3 };
-			//selection.Add(new SelectableObject() { uid = 1 });
-			//selection.Add(new SelectableObject() { uid = 2 });
-			//selection.Add(d);
-
-			//foreach (var obj in selection)
-			//{
-			//	Debug.Log("obj.uid=" + obj.uid);
-			//}
-
-			//Deselect(d);
-
-			//foreach (var obj in selection)
-			//{
-			//	Debug.Log("obj.uid=" + obj.uid);
-			//}
-			//Debug.Log("End");
 		}
 
 		// Update is called once per frame
@@ -68,27 +52,23 @@ namespace Birdy
 
 		public void Deselect(Selectable toDeselect)
 		{
-			if (_contents.Any(x => x.GetInstanceID() == toDeselect.GetInstanceID()))
-			{
-				return;
-			}
-			_contents.Remove(toDeselect);
 			toDeselect.Deselect();
+			_contents.Remove(toDeselect);
 		}
 
 		public void Deselect(List<Selectable> toDeselect)
 		{
-			foreach (Selectable obj in toDeselect)
+			for (int i = toDeselect.Count - 1; i >= 0; i--)
 			{
-				Deselect(obj);
+				toDeselect[i].Deselect();
 			}
 		}
 
 		public void Deselect()
 		{
-			foreach (Selectable toDeselect in _contents)
+			for (int i = _contents.Count - 1; i >= 0; i--)
 			{
-				Deselect(toDeselect);
+				Deselect(_contents[i]);
 			}
 		}
 	}

@@ -10,8 +10,11 @@ namespace Birdy.Commands
 
 		~Command() { }
 
-		public void Execute() { }
+		public abstract void Execute();
 
-		public void Undo() { }
+		public abstract void Undo();
+
+		public abstract void Redo();
+
 	}
 }

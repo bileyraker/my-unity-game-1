@@ -73,6 +73,15 @@ namespace Birdy
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Append"",
+                    ""type"": ""Button"",
+                    ""id"": ""859ea2e1-37d4-4b02-8418-105500e2d7fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -155,36 +164,14 @@ namespace Birdy
                 },
                 {
                     ""name"": """",
-                    ""id"": ""47dd17e4-feb6-48ff-b933-45d4008eae34"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Activate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""modifier"",
-                    ""id"": ""d60798ef-33f0-4edf-9d74-eef0381f257b"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Activate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""ef738434-a08e-4fdb-9451-e9d8d77ff753"",
+                    ""id"": ""e92d62c1-5ef6-487f-bffd-169b8dcebeb7"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Activate"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -194,6 +181,17 @@ namespace Birdy
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""CancelActivate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d2c16ee-7716-46e3-adc6-e621eda690dc"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Append"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -270,6 +268,7 @@ namespace Birdy
             m_WorldCamera_PanDrag = m_WorldCamera.FindAction("PanDrag", throwIfNotFound: true);
             m_WorldCamera_Activate = m_WorldCamera.FindAction("Activate", throwIfNotFound: true);
             m_WorldCamera_CancelActivate = m_WorldCamera.FindAction("CancelActivate", throwIfNotFound: true);
+            m_WorldCamera_Append = m_WorldCamera.FindAction("Append", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -336,6 +335,7 @@ namespace Birdy
         private readonly InputAction m_WorldCamera_PanDrag;
         private readonly InputAction m_WorldCamera_Activate;
         private readonly InputAction m_WorldCamera_CancelActivate;
+        private readonly InputAction m_WorldCamera_Append;
         public struct WorldCameraActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -345,6 +345,7 @@ namespace Birdy
             public InputAction @PanDrag => m_Wrapper.m_WorldCamera_PanDrag;
             public InputAction @Activate => m_Wrapper.m_WorldCamera_Activate;
             public InputAction @CancelActivate => m_Wrapper.m_WorldCamera_CancelActivate;
+            public InputAction @Append => m_Wrapper.m_WorldCamera_Append;
             public InputActionMap Get() { return m_Wrapper.m_WorldCamera; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -369,6 +370,9 @@ namespace Birdy
                 @CancelActivate.started += instance.OnCancelActivate;
                 @CancelActivate.performed += instance.OnCancelActivate;
                 @CancelActivate.canceled += instance.OnCancelActivate;
+                @Append.started += instance.OnAppend;
+                @Append.performed += instance.OnAppend;
+                @Append.canceled += instance.OnAppend;
             }
 
             private void UnregisterCallbacks(IWorldCameraActions instance)
@@ -388,6 +392,9 @@ namespace Birdy
                 @CancelActivate.started -= instance.OnCancelActivate;
                 @CancelActivate.performed -= instance.OnCancelActivate;
                 @CancelActivate.canceled -= instance.OnCancelActivate;
+                @Append.started -= instance.OnAppend;
+                @Append.performed -= instance.OnAppend;
+                @Append.canceled -= instance.OnAppend;
             }
 
             public void RemoveCallbacks(IWorldCameraActions instance)
@@ -457,6 +464,7 @@ namespace Birdy
             void OnPanDrag(InputAction.CallbackContext context);
             void OnActivate(InputAction.CallbackContext context);
             void OnCancelActivate(InputAction.CallbackContext context);
+            void OnAppend(InputAction.CallbackContext context);
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace Birdy.Player.Tools
 {
-	public class Select : Tool
+	public class Copy : Tool
 	{
 		public PlayerInputActions playerControls;
 		public InputAction activateAction;
@@ -27,7 +27,7 @@ namespace Birdy.Player.Tools
 		private void Awake()
 		{
 			playerControls = new PlayerInputActions();
-			// Select actions
+			// Copy actions
 			activateAction = playerControls.WorldCamera.Activate;
 			// Beginning of select
 			activateAction.started += OnSelect;
@@ -55,7 +55,7 @@ namespace Birdy.Player.Tools
 
 		private void OnEnable()
 		{
-			Debug.Log("Select tool enabled");
+			Debug.Log("Copy tool enabled");
 			activateAction.Enable();
 			cancelActivateAction.Enable();
 			appendAction.Enable();
@@ -63,7 +63,7 @@ namespace Birdy.Player.Tools
 
 		private void OnDisable()
 		{
-			Debug.Log("Select tool disabled");
+			Debug.Log("Copy tool disabled");
 			activateAction.Disable();
 			cancelActivateAction.Disable();
 			appendAction.Disable();
@@ -80,7 +80,7 @@ namespace Birdy.Player.Tools
 
 		private void OnSelect(InputAction.CallbackContext context)
 		{
-			Debug.Log("Select Started");
+			Debug.Log("Copy Started");
 			_rectangle.enabled = true;
 		}
 
@@ -101,12 +101,12 @@ namespace Birdy.Player.Tools
 					_selector.Select(selectable);
 				}
 			}
-			Debug.Log("Select Finished");
+			Debug.Log("Copy Finished");
 		}
 
 		private void CancelSelect(InputAction.CallbackContext context)
 		{
-			Debug.Log("Select Canceled");
+			Debug.Log("Copy Canceled");
 			_rectangle.End();
 			//_rectangle.enabled = false;
 		}
@@ -129,7 +129,7 @@ namespace Birdy.Player.Tools
 			Vector2 v2 = new Vector2(bounds.xMax, bounds.yMax);
 			Collider2D[] colliders = Physics2D.OverlapAreaAll(v1, v2);
 			List<Collider2D> colliderList = colliders.ToList();
-			Debug.Log($"Select found {colliderList.Count} colliders.");
+			Debug.Log($"Copy found {colliderList.Count} colliders.");
 			return colliderList;
 		}
 	}
