@@ -9,11 +9,13 @@ namespace Birdy
 	{
 		[SerializeField]
 		private List<Selectable> _contents;
+		private Formation _formation;
 		private int _priorityLevel = 0;
 
 		void Awake()
 		{
 			_contents = new List<Selectable>();
+			_formation = new Formation();
 		}
 
 		private void Start()

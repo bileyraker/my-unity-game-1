@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Birdy
 {
-    public class Weapon : Item
-    {
-    }
+    //public class Weapon : Item
+    //{
+    //}
 }

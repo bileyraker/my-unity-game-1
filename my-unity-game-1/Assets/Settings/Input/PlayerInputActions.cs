@@ -82,6 +82,33 @@ namespace Birdy
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Undo"",
+                    ""type"": ""Button"",
+                    ""id"": ""de77af39-6254-4f74-8a2f-c57020135343"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Redo"",
+                    ""type"": ""Button"",
+                    ""id"": ""955ba23b-8116-4992-b380-d68b982e38c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DefaultCommand"",
+                    ""type"": ""Button"",
+                    ""id"": ""2c123b76-3416-47ab-ab7f-31f4f5dcca2d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -194,6 +221,83 @@ namespace Birdy
                     ""action"": ""Append"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""328edfdd-7bc6-49e7-a364-3909971afbe4"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Undo"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""6cea13f2-5139-4a70-8319-bbb302281665"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""d4edb9f4-4382-4112-97f8-0878535c675a"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""b076d063-1725-4daa-8f7e-9f91af5c631c"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Redo"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""3529e85b-5222-4c33-b000-2cabddf5f43f"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Redo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""85794f66-d12f-4bca-9635-a5f3cec119c5"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Redo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""055281d4-1462-4835-aa57-835f0f81e7e9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DefaultCommand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -269,6 +373,9 @@ namespace Birdy
             m_WorldCamera_Activate = m_WorldCamera.FindAction("Activate", throwIfNotFound: true);
             m_WorldCamera_CancelActivate = m_WorldCamera.FindAction("CancelActivate", throwIfNotFound: true);
             m_WorldCamera_Append = m_WorldCamera.FindAction("Append", throwIfNotFound: true);
+            m_WorldCamera_Undo = m_WorldCamera.FindAction("Undo", throwIfNotFound: true);
+            m_WorldCamera_Redo = m_WorldCamera.FindAction("Redo", throwIfNotFound: true);
+            m_WorldCamera_DefaultCommand = m_WorldCamera.FindAction("DefaultCommand", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -336,6 +443,9 @@ namespace Birdy
         private readonly InputAction m_WorldCamera_Activate;
         private readonly InputAction m_WorldCamera_CancelActivate;
         private readonly InputAction m_WorldCamera_Append;
+        private readonly InputAction m_WorldCamera_Undo;
+        private readonly InputAction m_WorldCamera_Redo;
+        private readonly InputAction m_WorldCamera_DefaultCommand;
         public struct WorldCameraActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -346,6 +456,9 @@ namespace Birdy
             public InputAction @Activate => m_Wrapper.m_WorldCamera_Activate;
             public InputAction @CancelActivate => m_Wrapper.m_WorldCamera_CancelActivate;
             public InputAction @Append => m_Wrapper.m_WorldCamera_Append;
+            public InputAction @Undo => m_Wrapper.m_WorldCamera_Undo;
+            public InputAction @Redo => m_Wrapper.m_WorldCamera_Redo;
+            public InputAction @DefaultCommand => m_Wrapper.m_WorldCamera_DefaultCommand;
             public InputActionMap Get() { return m_Wrapper.m_WorldCamera; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -373,6 +486,15 @@ namespace Birdy
                 @Append.started += instance.OnAppend;
                 @Append.performed += instance.OnAppend;
                 @Append.canceled += instance.OnAppend;
+                @Undo.started += instance.OnUndo;
+                @Undo.performed += instance.OnUndo;
+                @Undo.canceled += instance.OnUndo;
+                @Redo.started += instance.OnRedo;
+                @Redo.performed += instance.OnRedo;
+                @Redo.canceled += instance.OnRedo;
+                @DefaultCommand.started += instance.OnDefaultCommand;
+                @DefaultCommand.performed += instance.OnDefaultCommand;
+                @DefaultCommand.canceled += instance.OnDefaultCommand;
             }
 
             private void UnregisterCallbacks(IWorldCameraActions instance)
@@ -395,6 +517,15 @@ namespace Birdy
                 @Append.started -= instance.OnAppend;
                 @Append.performed -= instance.OnAppend;
                 @Append.canceled -= instance.OnAppend;
+                @Undo.started -= instance.OnUndo;
+                @Undo.performed -= instance.OnUndo;
+                @Undo.canceled -= instance.OnUndo;
+                @Redo.started -= instance.OnRedo;
+                @Redo.performed -= instance.OnRedo;
+                @Redo.canceled -= instance.OnRedo;
+                @DefaultCommand.started -= instance.OnDefaultCommand;
+                @DefaultCommand.performed -= instance.OnDefaultCommand;
+                @DefaultCommand.canceled -= instance.OnDefaultCommand;
             }
 
             public void RemoveCallbacks(IWorldCameraActions instance)
@@ -465,6 +596,9 @@ namespace Birdy
             void OnActivate(InputAction.CallbackContext context);
             void OnCancelActivate(InputAction.CallbackContext context);
             void OnAppend(InputAction.CallbackContext context);
+            void OnUndo(InputAction.CallbackContext context);
+            void OnRedo(InputAction.CallbackContext context);
+            void OnDefaultCommand(InputAction.CallbackContext context);
         }
     }
 }

@@ -3,44 +3,38 @@ using UnityEngine;
 
 namespace Birdy.Commands
 {
-	public class MoveCommand : Command
+	public class MoveCommand : ICommand
 	{
-		private GameObject _obj;
-		private float _x, _y;
-		private float _prevX, _prevY;
+		private IThing _obj;
+		private float _x, _y, _z;
+		private float _prevX, _prevY, _prevZ;
 
-		public MoveCommand(GameObject obj, float x, float y)
+		public MoveCommand(IThing obj, float x, float y, float z)
 		{
 			_obj = obj;
 			_x = x;
 			_y = y;
+			_z = z;
+
 		}
 
-		public override void Execute()
+		public void Execute()
 		{
-			_prevX = _obj.transform.position.x;
-			_prevY = _obj.transform.position.y;
+			_prevX = _obj.PositionTarget.x;
+			_prevY = _obj.PositionTarget.y;
+			_prevZ = _obj.PositionTarget.z;
 
-			Vector3 pos = _obj.transform.position;
-			pos.x = _x;
-			pos.y = _y;
-			_obj.transform.position = pos;
+			Vector3 pos = new Vector3(_x, _y, _z);
+			_obj.PositionTarget = pos;
 		}
 
-		public override void Undo()
+		public void Undo()
 		{
-			Vector3 pos = _obj.transform.position;
+			Vector3 pos = new Vector3(_prevX, _prevY, _prevZ);
 			pos.x = _prevX;
 			pos.y = _prevY;
-			_obj.transform.position = pos;
-		}
-
-		public override void Redo()
-		{
-			Vector3 pos = _obj.transform.position;
-			pos.x = _x;
-			pos.y = _y;
-			_obj.transform.position = pos;
+			pos.z = _prevZ;
+			_obj.PositionTarget = pos;
 		}
 	}
 

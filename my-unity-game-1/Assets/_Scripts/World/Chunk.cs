@@ -6,7 +6,7 @@ namespace Birdy.World
 {
 	public class Chunk : MonoBehaviour
 	{
-		private List<Thing> thingList;
+		private List<IThing> thingList;
 
 		// Use this for initialization
 		void Start()
@@ -20,12 +20,12 @@ namespace Birdy.World
 
 		}
 
-		void Leave(Thing thing)
+		void Leave(IThing thing)
 		{
 			thingList.Remove(thing);
 		}
 
-		void Enter(Thing thing)
+		void Enter(IThing thing)
 		{
 			thingList.Add(thing);
 		}
