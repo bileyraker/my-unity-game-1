@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEngine;
 
 namespace Birdy.Commands
 {
 	// This should be used when we need the capability to undo something.
-	public class CommandQueue
+	public class CommandQueue : MonoBehaviour
 	{
 		// Commands are added to the queue by command invokers.
 		// Commands are pushed on top of the undo stack from the front of the queue when processed.

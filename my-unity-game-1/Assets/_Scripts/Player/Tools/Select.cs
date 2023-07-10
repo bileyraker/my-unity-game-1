@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Birdy.Commands;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Birdy.Player.Tools
@@ -15,14 +17,10 @@ namespace Birdy.Player.Tools
 
 		private bool _append = false;
 
-		private CameraRectangle _rectangle;
+		private CameraRectangle _toolBrush;
 
 		[SerializeField]
 		private Selection _selector;
-
-		private List<Selectable> _selectedThings;
-
-		private Collider2D _collider;
 
 		private void Awake()
 		{
@@ -30,13 +28,13 @@ namespace Birdy.Player.Tools
 			// Select actions
 			activateAction = playerControls.WorldCamera.Activate;
 			// Beginning of select
-			activateAction.started += OnSelect;
+			activateAction.started += Begin;
 			// End of select
-			activateAction.canceled += EndSelect;
+			activateAction.canceled += End;
 
 			// Cancel select & do not change current selection
 			cancelActivateAction = playerControls.WorldCamera.CancelActivate;
-			cancelActivateAction.started += CancelSelect;
+			cancelActivateAction.started += Cancel;
 
 			// Modifier to append to current selection
 			appendAction = playerControls.WorldCamera.Append;
@@ -49,15 +47,14 @@ namespace Birdy.Player.Tools
 		void Start()
 		{
 			_player = transform.parent.gameObject;
-			_rectangle = GetComponent<Tools.CameraRectangle>();
-			_collider = _rectangle.GetComponent<Collider2D>();
+			_toolBrush = GetComponent<Tools.CameraRectangle>();
 		}
 
 		private void OnEnable()
 		{
 			Debug.Log("Select tool enabled");
 			activateAction.Enable();
-			cancelActivateAction.Enable();
+			//cancelActivateAction.Enable();
 			appendAction.Enable();
 		}
 
@@ -71,44 +68,61 @@ namespace Birdy.Player.Tools
 
 		private void OnDestroy()
 		{
-			activateAction.started -= OnSelect;
-			activateAction.canceled -= EndSelect;
-			cancelActivateAction.started -= CancelSelect;
+			activateAction.started -= Begin;
+			activateAction.canceled -= End;
+			cancelActivateAction.started -= Cancel;
 			appendAction.started -= SetAppend;
 			appendAction.canceled -= ResetAppend;
 		}
 
-		private void OnSelect(InputAction.CallbackContext context)
+		private void Begin(InputAction.CallbackContext context)
 		{
+			PointerEventData pointerEvent = new PointerEventData(EventSystem.current);
+			pointerEvent.position = Pointer.current.position.ReadValue();
+			List<RaycastResult> uiHits = new List<RaycastResult>();
+			EventSystem.current.RaycastAll(pointerEvent, uiHits);
+			if (uiHits.Count != 0)
+			{
+				Debug.Log("Pointer over UI, cancelling tool.");
+				return;
+			}
 			Debug.Log("Select Started");
-			_rectangle.enabled = true;
+			_toolBrush.enabled = true;
+			cancelActivateAction.Enable();
 		}
 
-		private void EndSelect(InputAction.CallbackContext context)
+		private void End(InputAction.CallbackContext context)
 		{
-			if (!_rectangle.enabled) { return; }
+			cancelActivateAction.Disable();
+			// If toolBrush is disabled (i.e. tool was canceled), do nothing
+			// TODO: There may be a better way to implement this.
+			if (!_toolBrush.enabled) { return; }
+
+			// If not appending to selection, deselect everything first
 			if (!_append)
 			{
 				_selector.Deselect();
 			}
 
-			Rect bounds = _rectangle.End();
+			Rect bounds = _toolBrush.End();
 			List<Collider2D> colliders = GetColliders(bounds);
-			//List<Collider2D> selectableColliders = colliders.FindAll(x => x.TryGetComponent(out Selectable selectable));
+			List<Selectable> toSelect = new List<Selectable>();
 			foreach (Collider2D collider in colliders)
 			{
 				if (collider.TryGetComponent<Selectable>(out Selectable selectable)){
-					_selector.Select(selectable);
+					toSelect.Add(selectable);
 				}
 			}
+			SelectCommand command = new SelectCommand(toSelect, _append);
+			_selector.Select(toSelect);
 			Debug.Log("Select Finished");
 		}
 
-		private void CancelSelect(InputAction.CallbackContext context)
+		private void Cancel(InputAction.CallbackContext context)
 		{
 			Debug.Log("Select Canceled");
-			_rectangle.End();
-			//_rectangle.enabled = false;
+			_toolBrush.End();
+			cancelActivateAction.Disable();
 		}
 
 		private void SetAppend(InputAction.CallbackContext context)

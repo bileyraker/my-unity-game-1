@@ -16,31 +16,32 @@ namespace Birdy.Player.Tools
 		[SerializeField]
 		private List<Tool> tools;
 
-		[SerializeField]
-		private Select tool_Select;
-
 		private void Awake()
 		{
-			tools = new List<Tool>();
+			//tools = new List<Tool>();
 			playerControls = new PlayerInputActions();
 		}
 
 		// Start is called before the first frame update
 		void Start()
 		{
+			foreach (Tool tool in tools)
+			{
+				//DeactivateTool(tool);
+			}
 		}
 
 		private void OnEnable()
 		{
 			activate = playerControls.WorldCamera.Activate;
 			activate.Enable();
-			Debug.Log("activate enabled");
+			Debug.Log("Toolbox enabled");
 		}
 
 		private void OnDisable()
 		{
 			activate.Disable();
-			Debug.Log("activate disabled");
+			Debug.Log("Toolbox disabled");
 		}
 
 		// Update is called once per frame
@@ -49,14 +50,29 @@ namespace Birdy.Player.Tools
 
 		}
 
-		void ActivateTool()
+		public void ToggleTool(bool on, Tool tool)
 		{
-
+			if (tool is null) { throw new System.Exception("Oops"); }
+			if (on)
+			{
+				ActivateTool(tool);
+			}
+			else
+			{
+				DeactivateTool(tool);
+			}
 		}
 
-		void DeactivateTool(Tool tool)
+		private void ActivateTool(Tool tool)
 		{
+			Debug.Log($"Activating tool: {tool.name}");
+			tool.enabled = true;
+		}
 
+		private void DeactivateTool(Tool tool)
+		{
+			Debug.Log($"Deactivating tool: {tool.name}");
+			tool.enabled = false;
 		}
 
 

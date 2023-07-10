@@ -213,6 +213,17 @@ namespace Birdy
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f6172692-1420-4448-b7b8-f85e978dc03c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CancelActivate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9d2c16ee-7716-46e3-adc6-e621eda690dc"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",

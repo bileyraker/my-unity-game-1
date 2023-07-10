@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Birdy
 {
+	// Each player has a selection.
+	// When something has a target, it will be a selection
 	public class Selection : MonoBehaviour
 	{
 		[SerializeField]
 		private List<Selectable> _contents;
-		private Formation _formation;
 		private int _priorityLevel = 0;
 
 		void Awake()
 		{
 			_contents = new List<Selectable>();
-			_formation = new Formation();
 		}
 
 		private void Start()

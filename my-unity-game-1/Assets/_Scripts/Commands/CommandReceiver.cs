@@ -48,7 +48,12 @@ namespace Birdy.Assets._Scripts.Commands
 			_queue.Process();
 		}
 
-		private void Undo(InputAction.CallbackContext context)
+		public void IssueCommand(ICommand command)
+		{
+			_queue.Add(command);
+		}
+
+		public void Undo(InputAction.CallbackContext context)
 		{
 			Debug.Log("Undo");
 			ICommand command = _queue.Undo();
@@ -59,7 +64,7 @@ namespace Birdy.Assets._Scripts.Commands
 
 		}
 
-		private void Redo(InputAction.CallbackContext context)
+		public void Redo(InputAction.CallbackContext context)
 		{
 			Debug.Log("Redo");
 			ICommand command = _queue.Redo();

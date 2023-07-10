@@ -1,0 +1,9 @@
+I have a unit
+
+It has health
+It has an inventory
+It has 2 appendages that can equip/use things (arms + hands)
+It has 2 appendages that allow it to move (legs + feet)
+It has a torso
+It has a head
+

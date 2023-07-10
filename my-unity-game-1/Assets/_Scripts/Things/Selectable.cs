@@ -21,9 +21,9 @@ namespace Birdy
 		private SpriteRenderer _renderer;
 
 		[SerializeField]
-		private int _priority = 0;
+		private ThingTypes _priority = ThingTypes.None;
 
-		public int Priority { get { return _priority; }}
+		public ThingTypes Priority { get { return _priority; }}
 
 		private void Start()
 		{
@@ -32,9 +32,17 @@ namespace Birdy
 			_priority = CalculatePriority();
 		}
 
-		private int CalculatePriority()
+		private ThingTypes CalculatePriority()
 		{
-			return 0;
+			
+			if (TryGetComponent<Unit>(out var comp))
+			{
+				return ThingTypes.Unit;
+			}
+			else
+			{
+				return ThingTypes.None;
+			}
 		}
 
 		public bool Selected()

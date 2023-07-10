@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Birdy.Player.Tools
@@ -37,6 +39,12 @@ namespace Birdy.Player.Tools
 
 		private void OnEnable()
 		{
+			//if ( EventSystem.current.RaycastAll(Pointer.current.position, out var raycastResults))
+			//{
+			//	Debug.Log("Pointer over UI");
+			//	enabled = false;
+			//	return;
+			//}
 			Debug.Log("CameraRectangle init");
 			if (_cam is null)
 			{

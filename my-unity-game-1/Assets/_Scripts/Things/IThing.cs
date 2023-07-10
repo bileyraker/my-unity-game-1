@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Birdy
+namespace Birdy.Things
 {
     public interface IThing
     {
-		public Vector3 PositionTarget { get; set; }
     }
 }

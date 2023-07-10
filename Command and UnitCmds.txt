@@ -1,0 +1,41 @@
+Tools:
+	Select
+	Place
+	Draw
+	More to come I'm sure...
+	
+	Should these all use "brushes"? Some tools may not.
+	Brushes:
+		Rectangle
+		Radius (circle)
+		Lasso
+		Paintbrush with adjustable radius?
+
+Using a tool should be undoable, so it will use a command queue
+	
+Select:
+	When something is selected, its commands should become available.
+		Right click will hold a cursor-context-based default command. E.g:
+			Targeting ground will be a move command for units. Rally command for buildings.
+			Targeting enemy will be a target(?) command.
+			Targeting ally will be a protect command.
+		Right click hold can do something else.
+		Right click hold and drag can do something else.
+		Hotkeys or UI buttons available for other commands, sometimes requiring a left or right click afterwards for selecting a target (and maybe a hold or drag).
+		Basically just modelling most RTS behavior.
+		When a command hotkey or button is pressed, the player is selecting a target for that command.
+			Each command should have a set of valid targets
+				Ground, unit, building, resource, etc.
+			Right click should cancel
+				BUT right click drag should not cancel?
+			Left click will select a target.
+			Left click & drag will select an area to target? Based on the current selected tool brush, or just a radius/rect/lasso?
+
+Place:
+	When placing something, options to build a spacing-adjustable grid should be available.
+	Right click to cancel.
+	Left click to place one and remove the item from brush.
+	Shift + Left click to place one and keep item on brush.
+	Left click + drag to place a line of items.
+		
+When a unit is deselected, those commands are no longer available.
