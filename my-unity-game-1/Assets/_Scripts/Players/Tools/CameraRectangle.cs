@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-namespace Birdy.Player.Tools
+namespace Birdy.Players.Tools
 {
 	public class CameraRectangle : MonoBehaviour
 	{

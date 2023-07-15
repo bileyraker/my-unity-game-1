@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Birdy.Things.Components;
 
 namespace Birdy.Commands
 {
 	public class MoveCommand : ICommand
 	{
-		private IThing _obj;
+		private CanMove _obj;
 		private float _x, _y, _z;
 		private float _prevX, _prevY, _prevZ;
 
-		public MoveCommand(IThing obj, float x, float y, float z)
+		public MoveCommand(CanMove obj, float x, float y, float z)
 		{
 			_obj = obj;
 			_x = x;

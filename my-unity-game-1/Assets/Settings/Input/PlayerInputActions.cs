@@ -311,6 +311,114 @@ namespace Birdy
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UnitCommands"",
+            ""id"": ""de9dcf0c-4a92-41fe-988c-0117e396a660"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2e38d6e-529c-4f52-a461-4ea810beb9a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""a921ef66-0f63-4225-a46a-82e834eb16b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""a81b652c-4873-4a4a-879e-7eaf8a1973af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Repair"",
+                    ""type"": ""Button"",
+                    ""id"": ""d39e441a-338d-45b5-862f-fe715ddba862"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Follow"",
+                    ""type"": ""Button"",
+                    ""id"": ""433dc1c5-0748-4785-8c9b-532742d7935a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""636ec567-9c00-45d2-9efa-27043b0d7b72"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56e2b900-a2f9-4969-8504-31dcfbce8670"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54da27af-dff0-4d43-b8da-0ae7dfbf7193"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0126ecb6-4619-4874-9489-135d9f0f6d0c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Repair"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84340806-c152-46ff-9956-77141b960051"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Follow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -387,6 +495,13 @@ namespace Birdy
             m_WorldCamera_Undo = m_WorldCamera.FindAction("Undo", throwIfNotFound: true);
             m_WorldCamera_Redo = m_WorldCamera.FindAction("Redo", throwIfNotFound: true);
             m_WorldCamera_DefaultCommand = m_WorldCamera.FindAction("DefaultCommand", throwIfNotFound: true);
+            // UnitCommands
+            m_UnitCommands = asset.FindActionMap("UnitCommands", throwIfNotFound: true);
+            m_UnitCommands_Move = m_UnitCommands.FindAction("Move", throwIfNotFound: true);
+            m_UnitCommands_Attack = m_UnitCommands.FindAction("Attack", throwIfNotFound: true);
+            m_UnitCommands_Build = m_UnitCommands.FindAction("Build", throwIfNotFound: true);
+            m_UnitCommands_Repair = m_UnitCommands.FindAction("Repair", throwIfNotFound: true);
+            m_UnitCommands_Follow = m_UnitCommands.FindAction("Follow", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -554,6 +669,84 @@ namespace Birdy
             }
         }
         public WorldCameraActions @WorldCamera => new WorldCameraActions(this);
+
+        // UnitCommands
+        private readonly InputActionMap m_UnitCommands;
+        private List<IUnitCommandsActions> m_UnitCommandsActionsCallbackInterfaces = new List<IUnitCommandsActions>();
+        private readonly InputAction m_UnitCommands_Move;
+        private readonly InputAction m_UnitCommands_Attack;
+        private readonly InputAction m_UnitCommands_Build;
+        private readonly InputAction m_UnitCommands_Repair;
+        private readonly InputAction m_UnitCommands_Follow;
+        public struct UnitCommandsActions
+        {
+            private @PlayerInputActions m_Wrapper;
+            public UnitCommandsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_UnitCommands_Move;
+            public InputAction @Attack => m_Wrapper.m_UnitCommands_Attack;
+            public InputAction @Build => m_Wrapper.m_UnitCommands_Build;
+            public InputAction @Repair => m_Wrapper.m_UnitCommands_Repair;
+            public InputAction @Follow => m_Wrapper.m_UnitCommands_Follow;
+            public InputActionMap Get() { return m_Wrapper.m_UnitCommands; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(UnitCommandsActions set) { return set.Get(); }
+            public void AddCallbacks(IUnitCommandsActions instance)
+            {
+                if (instance == null || m_Wrapper.m_UnitCommandsActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_UnitCommandsActionsCallbackInterfaces.Add(instance);
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
+                @Repair.started += instance.OnRepair;
+                @Repair.performed += instance.OnRepair;
+                @Repair.canceled += instance.OnRepair;
+                @Follow.started += instance.OnFollow;
+                @Follow.performed += instance.OnFollow;
+                @Follow.canceled += instance.OnFollow;
+            }
+
+            private void UnregisterCallbacks(IUnitCommandsActions instance)
+            {
+                @Move.started -= instance.OnMove;
+                @Move.performed -= instance.OnMove;
+                @Move.canceled -= instance.OnMove;
+                @Attack.started -= instance.OnAttack;
+                @Attack.performed -= instance.OnAttack;
+                @Attack.canceled -= instance.OnAttack;
+                @Build.started -= instance.OnBuild;
+                @Build.performed -= instance.OnBuild;
+                @Build.canceled -= instance.OnBuild;
+                @Repair.started -= instance.OnRepair;
+                @Repair.performed -= instance.OnRepair;
+                @Repair.canceled -= instance.OnRepair;
+                @Follow.started -= instance.OnFollow;
+                @Follow.performed -= instance.OnFollow;
+                @Follow.canceled -= instance.OnFollow;
+            }
+
+            public void RemoveCallbacks(IUnitCommandsActions instance)
+            {
+                if (m_Wrapper.m_UnitCommandsActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IUnitCommandsActions instance)
+            {
+                foreach (var item in m_Wrapper.m_UnitCommandsActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_UnitCommandsActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public UnitCommandsActions @UnitCommands => new UnitCommandsActions(this);
         private int m_KeyboardMouseSchemeIndex = -1;
         public InputControlScheme KeyboardMouseScheme
         {
@@ -610,6 +803,14 @@ namespace Birdy
             void OnUndo(InputAction.CallbackContext context);
             void OnRedo(InputAction.CallbackContext context);
             void OnDefaultCommand(InputAction.CallbackContext context);
+        }
+        public interface IUnitCommandsActions
+        {
+            void OnMove(InputAction.CallbackContext context);
+            void OnAttack(InputAction.CallbackContext context);
+            void OnBuild(InputAction.CallbackContext context);
+            void OnRepair(InputAction.CallbackContext context);
+            void OnFollow(InputAction.CallbackContext context);
         }
     }
 }

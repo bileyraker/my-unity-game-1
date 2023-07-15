@@ -1,7 +1,7 @@
 ﻿using Birdy.Commands;
 using UnityEngine;
 
-namespace Birdy.Player.Tools
+namespace Birdy.Players.Tools
 {
 	public abstract class Tool : MonoBehaviour
 	{

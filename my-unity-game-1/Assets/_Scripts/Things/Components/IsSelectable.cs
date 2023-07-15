@@ -5,9 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Birdy
+namespace Birdy.Things.Components
 {
-    public class Selectable : MonoBehaviour
+    public class IsSelectable : MonoBehaviour
     {
 		[SerializeField]
 		private int selectors = 0;

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Birdy.Things.Components;
 
-namespace Birdy.Player.Tools
+namespace Birdy.Players.Tools
 {
 	public class Copy : Tool
 	{
@@ -20,7 +20,7 @@ namespace Birdy.Player.Tools
 		[SerializeField]
 		private Selection _selector;
 
-		private List<Selectable> _selectedThings;
+		private List<IsSelectable> _selectedThings;
 
 		private Collider2D _collider;
 
@@ -94,10 +94,10 @@ namespace Birdy.Player.Tools
 
 			Rect bounds = _rectangle.End();
 			List<Collider2D> colliders = GetColliders(bounds);
-			//List<Collider2D> selectableColliders = colliders.FindAll(x => x.TryGetComponent(out Selectable selectable));
+			//List<Collider2D> selectableColliders = colliders.FindAll(x => x.TryGetComponent(out IsSelectable selectable));
 			foreach (Collider2D collider in colliders)
 			{
-				if (collider.TryGetComponent<Selectable>(out Selectable selectable)){
+				if (collider.TryGetComponent<IsSelectable>(out IsSelectable selectable)){
 					_selector.Select(selectable);
 				}
 			}

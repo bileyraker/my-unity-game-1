@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Birdy.Items
+namespace Birdy.Things
 {
 	public interface IDurability
 	{

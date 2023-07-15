@@ -4,15 +4,15 @@ using Birdy.Things.Components;
 
 namespace Birdy.Commands
 {
-	public class AttackCommand : ICommand
+	public class AttackAreaCommand : ICommand
 	{
 		private CanAttack _obj;
-		private Selection _target;
-		private Selection _prevTarget;
+		private World.Volume _target;
+		private World.Volume _prevTarget;
 
 		public float TimeIssued { get; set; } = -1f;
 
-		public AttackCommand(CanAttack obj, Selection target)
+		public AttackAreaCommand(CanAttack obj, World.Volume target)
 		{
 			_obj = obj;
 			_target = target;
@@ -25,7 +25,7 @@ namespace Birdy.Commands
 
 		public void Undo()
 		{
-
+			_target = _prevTarget;
 		}
 	}
 

@@ -1,4 +1,5 @@
 ﻿using Birdy.Commands;
+using Birdy.Things.Components;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.ShaderKeywordFilter;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-namespace Birdy.Player.Tools
+namespace Birdy.Players.Tools
 {
 	public class Select : Tool
 	{
@@ -106,14 +107,14 @@ namespace Birdy.Player.Tools
 
 			Rect bounds = _toolBrush.End();
 			List<Collider2D> colliders = GetColliders(bounds);
-			List<Selectable> toSelect = new List<Selectable>();
+			List<IsSelectable> toSelect = new List<IsSelectable>();
 			foreach (Collider2D collider in colliders)
 			{
-				if (collider.TryGetComponent<Selectable>(out Selectable selectable)){
+				if (collider.TryGetComponent<IsSelectable>(out IsSelectable selectable)){
 					toSelect.Add(selectable);
 				}
 			}
-			SelectCommand command = new SelectCommand(toSelect, _append);
+			SelectCommand command = new SelectCommand(_selector, toSelect, _append);
 			_selector.Select(toSelect);
 			Debug.Log("Select Finished");
 		}

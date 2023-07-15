@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Birdy.Player.Tools
+namespace Birdy.Players.Tools
 {
 	public class Toolbox : MonoBehaviour
 	{
@@ -20,6 +20,7 @@ namespace Birdy.Player.Tools
 		{
 			//tools = new List<Tool>();
 			playerControls = new PlayerInputActions();
+			activate = playerControls.WorldCamera.Activate;
 		}
 
 		// Start is called before the first frame update
@@ -27,19 +28,22 @@ namespace Birdy.Player.Tools
 		{
 			foreach (Tool tool in tools)
 			{
-				//DeactivateTool(tool);
+				DeactivateTool(tool);
 			}
 		}
 
 		private void OnEnable()
 		{
-			activate = playerControls.WorldCamera.Activate;
 			activate.Enable();
 			Debug.Log("Toolbox enabled");
 		}
 
 		private void OnDisable()
 		{
+			foreach (Tool tool in tools)
+			{
+				DeactivateTool(tool);
+			}
 			activate.Disable();
 			Debug.Log("Toolbox disabled");
 		}
@@ -67,6 +71,8 @@ namespace Birdy.Player.Tools
 		{
 			Debug.Log($"Activating tool: {tool.name}");
 			tool.enabled = true;
+			// Switch control set
+
 		}
 
 		private void DeactivateTool(Tool tool)

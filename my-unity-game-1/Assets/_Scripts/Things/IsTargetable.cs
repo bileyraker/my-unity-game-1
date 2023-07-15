@@ -5,9 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Birdy
+namespace Birdy.Things
 {
-    public class Targetable : MonoBehaviour
+    public class IsTargetable : MonoBehaviour
     {
 
 	}

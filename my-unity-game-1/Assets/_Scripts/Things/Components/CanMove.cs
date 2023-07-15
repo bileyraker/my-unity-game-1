@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Birdy.Assets._Scripts.Things
+namespace Birdy.Things.Components
 {
 	public class CanMove : MonoBehaviour
 	{

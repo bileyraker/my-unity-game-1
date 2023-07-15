@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Birdy
+namespace Birdy.Things.Components
 {
     public class Unit : MonoBehaviour, IThing
     {
+		
+
 		private int _team;
 	    private float _health;
 	    private float _maxHealth;
@@ -35,14 +37,13 @@ namespace Birdy
 		
 		private void Start()
 		{
-			PositionTarget = transform.position;
 		}
 
 		private void Update()
 		{
 		}
 
-		private void UseItem(Targetable target)
+		private void UseItem(IsTargetable target)
 		{
 
 		}

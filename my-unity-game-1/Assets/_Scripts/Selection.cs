@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Birdy.Things.Components;
 
 namespace Birdy
 {
@@ -10,12 +11,12 @@ namespace Birdy
 	public class Selection : MonoBehaviour
 	{
 		[SerializeField]
-		private List<Selectable> _contents;
+		private List<IsSelectable> _contents;
 		private int _priorityLevel = 0;
 
 		void Awake()
 		{
-			_contents = new List<Selectable>();
+			_contents = new List<IsSelectable>();
 		}
 
 		private void Start()
@@ -29,36 +30,39 @@ namespace Birdy
 
 		}
 
-		public List<Selectable> SelectedObjects
+		public List<IsSelectable> SelectedObjects
 		{
 			get => _contents;
 		}
 
-		public void Select(List<Selectable> toSelect)
+		public void Select(List<IsSelectable> toSelect)
 		{
 			foreach (var obj in toSelect)
 			{
-				_contents.Add(obj);
+				Select(toSelect);
 			}
 		}
 
-		public void Select(Selectable toSelect)
+		public void Select(IsSelectable toSelect)
 		{
+			// Do not select any that are already selected by this
 			if (_contents.Any(x => x.GetInstanceID() == toSelect.GetInstanceID()))
 			{
 				return;
 			}
+
+			// Add to contents and notify the object that it has been selected.
 			_contents.Add(toSelect);
 			toSelect.Select();
 		}
 
-		public void Deselect(Selectable toDeselect)
+		public void Deselect(IsSelectable toDeselect)
 		{
 			toDeselect.Deselect();
 			_contents.Remove(toDeselect);
 		}
 
-		public void Deselect(List<Selectable> toDeselect)
+		public void Deselect(List<IsSelectable> toDeselect)
 		{
 			for (int i = toDeselect.Count - 1; i >= 0; i--)
 			{

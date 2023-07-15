@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Birdy.Assets._Scripts.Things
+namespace Birdy.Things.Components
 {
-	public class Spawner : MonoBehaviour
+	public class CanUse : MonoBehaviour
 	{
-
+		
 		// Use this for initialization
 		void Start()
 		{
@@ -17,5 +17,6 @@ namespace Birdy.Assets._Scripts.Things
 		{
 
 		}
+
 	}
 }
