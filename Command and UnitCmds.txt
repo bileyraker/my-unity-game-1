@@ -30,7 +30,9 @@ Select:
 				BUT right click drag should not cancel?
 			Left click will select a target.
 			Left click & drag will select an area to target? Based on the current selected tool brush, or just a radius/rect/lasso?
-
+	Where should available commands come from?
+		The ThingType?
+		
 Place:
 	When placing something, options to build a spacing-adjustable grid should be available.
 	Right click to cancel.

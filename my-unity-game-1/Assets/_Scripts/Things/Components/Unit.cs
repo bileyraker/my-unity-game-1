@@ -6,7 +6,7 @@ namespace Birdy.Things.Components
 {
     public class Unit : MonoBehaviour, IThing
     {
-		
+		List<UnitTypes> _types;
 
 		private int _team;
 	    private float _health;
@@ -34,7 +34,13 @@ namespace Birdy.Things.Components
 		{
 			_health = Mathf.Clamp(_health + amount, 0, _maxHealth);
 		}
-		
+
+		private void Awake()
+		{
+			_types = new List<UnitTypes>();
+			_team = -1;
+		}
+
 		private void Start()
 		{
 		}

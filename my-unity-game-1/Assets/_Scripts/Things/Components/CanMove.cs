@@ -13,6 +13,7 @@ namespace Birdy.Things.Components
 		private float _speed;
 
 		public float MoveSpeed { get { return _speed; } set { _speed = value; } }
+
 		public Vector3 PositionTarget { get; set; }
 
 		// Use this for initialization

@@ -7,19 +7,20 @@ namespace Birdy.Things.Components
 	{
 		// Targets
 		private bool bAttackGround;
+		public bool IsAttackingGround { get { return bAttackGround; } }
 
 		private Selection _target;
 		public Selection Target
 		{
 			get { return _target; }
-			set { bAttackGround = false; _target = value; }
+			set { bAttackGround = false; _target = value; _groundTarget = null; }
 		}
 
-		private Vector3 _groundTarget;
-		public Vector3 GroundTarget
+		private World.Volume _groundTarget;
+		public World.Volume GroundTarget
 		{
 			get { return _groundTarget; }
-			set { bAttackGround = true; _groundTarget = value; }
+			set { bAttackGround = true; _groundTarget = value; _target = null; }
 		}
 
 		// Weapon(s)
